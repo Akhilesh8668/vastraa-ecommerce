@@ -29,6 +29,7 @@ export default function RegisterPage() {
       return
     }
 
+    const origin = typeof window !== 'undefined' ? window.location.origin : ''
     const { error } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.password,
@@ -37,7 +38,7 @@ export default function RegisterPage() {
           full_name: formData.fullName,
           role: formData.role
         },
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${origin}/auth/callback`,
       },
     })
 
