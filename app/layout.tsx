@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Yatra_One, Geist } from "next/font/google";
+import { Inter, Playfair_Display, Yatra_One } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -34,10 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en" className={cn("font-sans", inter.variable)}>
       <body className={`${inter.variable} ${playfair.variable} ${yatra.variable} font-sans bg-vastraa-white text-vastraa-ink antialiased`}>
         <Navbar />
-        <main min-h-screen>{children}</main>
+        <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
     </html>

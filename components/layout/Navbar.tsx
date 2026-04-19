@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { ShoppingCart, User, Menu, X } from 'lucide-react'
 import { useState } from 'react'
+import CartDrawer from '@/components/cart/CartDrawer'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -35,18 +36,12 @@ export default function Navbar() {
             <Link href="/shop" className="bg-vastraa-clay text-white px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-vastraa-ink transition-colors duration-300">
               Shop Now
             </Link>
-            <Link href="/cart" className="relative p-2 hover:text-vastraa-clay transition-colors">
-              <ShoppingCart size={22} />
-              <span className="absolute top-0 right-0 bg-vastraa-clay text-white text-[10px] w-4 h-4 flex items-center justify-center font-bold">0</span>
-            </Link>
+            <CartDrawer />
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
-            <Link href="/cart" className="relative p-2">
-              <ShoppingCart size={22} />
-              <span className="absolute top-0 right-0 bg-vastraa-clay text-white text-[10px] w-4 h-4 flex items-center justify-center font-bold">0</span>
-            </Link>
+            <CartDrawer />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2 text-vastraa-ink"
