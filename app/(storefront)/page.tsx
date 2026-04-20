@@ -1,6 +1,8 @@
 import { ArrowRight, Star } from 'lucide-react'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default function HomePage() {
   const categories = ['All', 'Tops', 'Bottoms', 'Dresses', 'Sets', 'Accessories']
   
@@ -158,15 +160,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <style jsx global>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-33.33%); }
-        }
-        .animate-marquee {
-          animation: marquee 40s linear infinite;
-        }
-      `}</style>
     </div>
   )
 }

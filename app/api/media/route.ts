@@ -1,21 +1,30 @@
-import { google } from 'googleapis'
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
+  const { google } = await import('googleapis')
   try {
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL
     const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
     const folderId = process.env.DRIVE_FOLDER_ID
 
-    if (!clientEmail || !privateKey || !folderId) {
-      return NextResponse.json({ error: 'Missing Google Drive credentials' }, { status: 500 })
+    // Ensure privateKey is correctly formatted and not a placeholder
+    if (!clientEmail || !privateKey || privateKey.includes('your_worker_email') || !folderId) {
+      return NextResponse.json({ error: 'Missing or invalid Google Drive credentials' }, { status: 500 })
     }
 
-    const auth = new google.auth.JWT({
-      email: clientEmail,
-      key: privateKey,
-      scopes: ['https://www.googleapis.com/auth/drive.readonly']
-    })
+    let auth;
+    try {
+      auth = new google.auth.JWT({
+        email: clientEmail,
+        key: privateKey,
+        scopes: ['https://www.googleapis.com/auth/drive.readonly']
+      })
+    } catch (authError) {
+      console.error('GOOGLE_AUTH_INIT_ERROR:', authError)
+      return NextResponse.json({ error: 'Failed to initialize Google Auth' }, { status: 500 })
+    }
 
     const drive = google.drive({ version: 'v3', auth })
 

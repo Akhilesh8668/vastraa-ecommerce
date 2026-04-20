@@ -2,10 +2,15 @@ import { NextResponse } from 'next/server'
 import Razorpay from 'razorpay'
 import { createClient } from '@/lib/supabase/server'
 
-const razorpay = new Razorpay({
-  key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-})
+export const dynamic = 'force-dynamic'
+
+const getRazorpay = () => {
+  if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) return null
+  return new Razorpay({
+    key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  })
+}
 
 export async function POST(req: Request) {
   try {
@@ -36,6 +41,9 @@ export async function POST(req: Request) {
     }
 
     // 2. Create Razorpay order (amount in paise)
+    const razorpay = getRazorpay()
+    if (!razorpay) throw new Error('Razorpay credentials missing')
+
     const options = {
       amount: Math.round(totalAmount * 100),
       currency: 'INR',

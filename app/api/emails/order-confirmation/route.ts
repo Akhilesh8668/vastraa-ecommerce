@@ -1,11 +1,19 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+export const dynamic = 'force-dynamic'
+
+const getResend = () => {
+  if (!process.env.RESEND_API_KEY) return null
+  return new Resend(process.env.RESEND_API_KEY)
+}
 
 export async function POST(req: Request) {
   try {
     const { orderId, customerEmail, customerName, total } = await req.json()
+
+    const resend = getResend()
+    if (!resend) throw new Error('Resend API key missing')
 
     const { data, error } = await resend.emails.send({
       from: 'Vastraa <orders@vastraa.com>', // User needs to verify domain in Resend

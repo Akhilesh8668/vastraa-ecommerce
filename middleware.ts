@@ -54,39 +54,50 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const { data: { session } } = await supabase.auth.getSession()
+  const { data: { user } } = await supabase.auth.getUser()
   const path = request.nextUrl.pathname
 
-  // Protected routes:
-  // /account/* → must be logged in
-  // /checkout → must be logged in
-  if (!session && (path.startsWith('/account') || path === '/checkout')) {
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
+  // Protected routes checklist
+  const isAuthRoute = path.startsWith('/login') || path.startsWith('/register')
+  const isAccountRoute = path.startsWith('/account') || path === '/checkout'
+  const isAdminRoute = path.startsWith('/admin') || path.startsWith('/superadmin')
 
-  // Admin routes:
-  // /admin/* → must be admin or superadmin
-  // /superadmin/* → must be superadmin
-  if (path.startsWith('/admin') || path.startsWith('/superadmin')) {
-    if (!session) return NextResponse.redirect(new URL('/login', request.url))
+  // 1. If trying to access /admin or /superadmin routes
+  if (isAdminRoute) {
+    if (!user) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
 
     const { data: profile } = await supabase
       .from('profiles')
       .select('role, email_verified')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single()
 
+    // Must have verified email for admin access
     if (!profile?.email_verified) {
       return NextResponse.redirect(new URL('/verify-email', request.url))
     }
 
+    // superadmin only check
     if (path.startsWith('/superadmin') && profile.role !== 'superadmin') {
       return NextResponse.redirect(new URL('/', request.url))
     }
 
+    // admin check (superadmins also allowed)
     if (path.startsWith('/admin') && !['admin', 'superadmin'].includes(profile.role)) {
       return NextResponse.redirect(new URL('/', request.url))
     }
+  }
+
+  // 2. Account protected routes
+  if (isAccountRoute && !user) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  // 3. Prevent logged-in users from hitting /login or /register
+  if (isAuthRoute && user) {
+    return NextResponse.redirect(new URL('/account', request.url))
   }
 
   return response
