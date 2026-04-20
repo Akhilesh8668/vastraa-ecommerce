@@ -21,7 +21,10 @@ export async function POST(req: Request) {
       subject: `Order Confirmation: ${orderId}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF9F6; padding: 40px; color: #1C1C1C;">
-          <h1 style="font-family: serif; font-style: italic; font-size: 32px; border-bottom: 1px solid #1C1C1C; padding-bottom: 20px; margin-bottom: 30px;">VASTRAA</h1>
+          <div style="border-bottom: 2px solid #1C1C1C; padding-bottom: 20px; margin-bottom: 30px; display: flex; align-items: baseline;">
+            <span style="font-family: serif; font-size: 32px; font-weight: bold; letter-spacing: -0.05em; margin-right: 10px;">VASTRAA</span>
+            <span style="font-size: 16px; color: #C65D3B;">वस्त्र</span>
+          </div>
           
           <p style="text-transform: uppercase; letter-spacing: 0.2em; font-size: 10px; font-weight: bold; color: #C65D3B; margin-bottom: 8px;">Order Confirmed</p>
           <h2 style="font-family: serif; font-size: 24px; margin-top: 0;">Thank you for your purchase, ${customerName}.</h2>

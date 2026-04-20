@@ -15,29 +15,33 @@ const config: Config = {
           clay: '#C65D3B',
           beige: '#E8E2D8',
           green: '#4A7C59',
+          black: '#0c0c0c',
+          surface: '#121212',
         },
-        // Mapping for shadcn if needed
         primary: {
-          DEFAULT: '#C65D3B', // clay
+          DEFAULT: '#C65D3B',
           foreground: '#FAF9F6',
         },
         secondary: {
-          DEFAULT: '#1C1C1C', // ink
-          foreground: '#FAF9F6',
+          DEFAULT: '#ffffff',
+          foreground: '#0c0c0c',
         },
-        background: '#FAF9F6',
-        foreground: '#1C1C1C',
+        background: '#0c0c0c',
+        foreground: '#ffffff',
+        border: 'rgba(255, 255, 255, 0.1)',
       },
       fontFamily: {
         serif: ['var(--font-playfair)', 'serif'],
-        sans: ['var(--font-inter)', 'sans-serif'],
+        sans: ['var(--font-dmsans)', 'sans-serif'],
         hindi: ['var(--font-yatra)', 'cursive'],
       },
       borderRadius: {
-        none: '0',
+        card: '16px',
+        button: '8px',
+        full: '999px',
       },
       animation: {
-        marquee: 'marquee 25s linear infinite',
+        marquee: 'marquee 40s linear infinite',
       },
       keyframes: {
         marquee: {
@@ -45,6 +49,9 @@ const config: Config = {
           '100%': { transform: 'translateX(-50%)' },
         },
       },
+      backdropBlur: {
+        xs: '2px',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

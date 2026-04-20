@@ -38,10 +38,11 @@ export default function AdminLayout({
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 h-full w-64 bg-vastraa-ink text-vastraa-white z-50 flex flex-col">
         <div className="p-8 border-b border-vastraa-white/10">
-          <Link href="/admin/dashboard" className="flex flex-col items-start translate-y-1">
-            <span className="text-2xl font-serif font-bold tracking-tighter leading-none">VASTRAA</span>
-            <span className="text-[10px] uppercase font-bold tracking-[0.4em] text-vastraa-clay mt-1">Admin Panel</span>
+          <Link href="/admin/dashboard" className="flex items-baseline gap-2 translate-y-1">
+            <span className="text-2xl font-serif font-bold tracking-tighter leading-none text-white">VASTRAA</span>
+            <span className="text-xs font-hindi text-vastraa-clay">वस्त्र</span>
           </Link>
+          <p className="text-[8px] uppercase font-black tracking-[0.4em] text-vastraa-white/20 mt-2 ml-1">Admin Operations</p>
         </div>
 
         <nav className="flex-1 p-4 space-y-2 pt-8">

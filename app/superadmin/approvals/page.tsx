@@ -1,8 +1,8 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import Image from 'next/image'
 import ApprovalsList from './ApprovalsList'
+import { ShieldCheck } from 'lucide-react'
 
 export default async function SuperadminApprovalsPage() {
   const cookieStore = cookies()
@@ -49,40 +49,45 @@ export default async function SuperadminApprovalsPage() {
     .order('created_at', { ascending: false })
 
   return (
-    <div className="min-h-screen bg-vastraa-white p-8 md:p-12 lg:p-24">
-      <div className="max-w-7xl mx-auto space-y-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b-2 border-vastraa-ink pb-8">
-          <div className="space-y-4">
-            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-vastraa-clay">
-              Superadmin Console
-            </span>
-            <h1 className="text-5xl md:text-7xl font-serif text-vastraa-ink leading-tight">
-              Partner <span className="italic">Approvals</span>
+    <div className="min-h-screen bg-background pt-32 p-8 md:p-12 lg:p-24 selection:bg-primary selection:text-white">
+      <div className="max-w-7xl mx-auto space-y-16">
+        {/* Header section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 border-b border-white/5 pb-10">
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 text-primary">
+              <ShieldCheck size={20} />
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em]">
+                Registry Permissions
+              </span>
+            </div>
+            <h1 className="text-6xl md:text-8xl font-serif text-white leading-tight tracking-tighter">
+              Artisan <span className="italic text-gradient">Approvals</span>
             </h1>
           </div>
-          <div className="text-right">
-            <p className="text-xs font-bold uppercase tracking-widest text-vastraa-ink/40">
-              Pending Requests
+          <div className="text-right space-y-2">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
+              Pending Applications
             </p>
-            <p className="text-4xl font-serif italic text-vastraa-ink">
+            <p className="text-6xl font-serif italic text-white/80">
               {requests?.length || 0}
             </p>
           </div>
         </div>
 
+        {/* Content Section */}
         {error ? (
-          <div className="p-12 border-2 border-red-200 bg-red-50 text-red-600 text-center font-bold uppercase tracking-widest text-sm">
-            Failed to load requests: {error.message}
+          <div className="p-16 border border-primary/20 bg-primary/5 text-primary text-center font-black uppercase tracking-widest text-[10px] rounded-[2rem]">
+            Failed to Synchronize Registry: {error.message}
           </div>
         ) : requests && requests.length > 0 ? (
           <ApprovalsList initialRequests={requests} />
         ) : (
-          <div className="py-24 text-center border-2 border-dashed border-vastraa-ink/10">
-            <div className="text-vastraa-ink/20 font-serif italic text-2xl mb-4">
-              All looms are quiet.
+          <div className="py-32 text-center border-2 border-dashed border-white/5 rounded-[3rem] group hover:border-white/10 transition-colors">
+            <div className="text-white/10 font-serif italic text-3xl mb-4 group-hover:text-white/20 transition-colors">
+              The Looms are Quiet
             </div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-vastraa-ink/40">
-              No pending partner requests found.
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/10 group-hover:text-white/30 transition-colors">
+              No artisanal sell requests currently in the queue.
             </p>
           </div>
         )}

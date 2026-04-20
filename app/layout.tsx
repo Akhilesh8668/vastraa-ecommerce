@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Yatra_One } from "next/font/google";
+import { DM_Sans, Playfair_Display, Yatra_One } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({ 
+const dmSans = DM_Sans({ 
   subsets: ["latin"], 
-  variable: "--font-inter" 
+  variable: "--font-dmsans" 
 });
 
 const playfair = Playfair_Display({ 
@@ -26,17 +26,17 @@ export const metadata: Metadata = {
   description: "Contemporary essentials rooted in Indian tradition.",
 };
 
+import AppLayoutWrapper from "@/components/layout/AppLayoutWrapper";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
-      <body className={`${inter.variable} ${playfair.variable} ${yatra.variable} font-sans bg-vastraa-white text-vastraa-ink antialiased`}>
-        <Navbar />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+    <html lang="en" className={cn("dark", dmSans.variable, playfair.variable, yatra.variable)}>
+      <body className="font-sans bg-background text-foreground antialiased no-scrollbar">
+        <AppLayoutWrapper>{children}</AppLayoutWrapper>
       </body>
     </html>
   );
